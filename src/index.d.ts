@@ -45,7 +45,7 @@ declare namespace Geocoder {
     | string;
 
   class Geocoder {
-    constructor(apiKey: string, options?: Object): void;
+    constructor(apiKey: string, options?: Object);
     isInit(): boolean;
     from(...params: fromParams[]): Promise<GeocoderResponse>;
   }
