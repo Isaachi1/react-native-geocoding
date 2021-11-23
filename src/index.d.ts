@@ -1,4 +1,4 @@
-declare namespace Geocoder {
+declare module "react-native-geocoding" {
   interface LatLng {
     lat: number;
     lng: number;
@@ -49,8 +49,6 @@ declare namespace Geocoder {
     isInit(): boolean;
     from(...params: fromParams[]): Promise<GeocoderResponse>;
   }
-}
 
-declare module "react-native-geocoding" {
   export default Geocoder;
 }
