@@ -3,10 +3,12 @@ declare namespace Geocoder {
     lat: number;
     lng: number;
   }
+
   interface PlusCode {
     compound_code: string;
     global_code: string;
   }
+
   interface GeocoderResponse {
     plus_code: PlusCode;
     results: {
@@ -22,7 +24,7 @@ declare namespace Geocoder {
           southwest: LatLng;
         };
         location: LatLng;
-        location_type: 'APPROXIMATE' | 'ROOFTOP' | string;
+        location_type: "APPROXIMATE" | "ROOFTOP" | string;
         viewport: {
           northeast: LatLng;
           southwest: LatLng;
@@ -32,7 +34,7 @@ declare namespace Geocoder {
       types: string[];
       plus_code: PlusCode;
     }[];
-    status: 'OK' | string;
+    status: "OK" | string;
   }
 
   type fromParams =
@@ -42,11 +44,13 @@ declare namespace Geocoder {
     | { latitude: number; longitude: number }
     | string;
 
-  function init(apiKey: string, options?: Object): void;
-  function isInit(): boolean;
-  function from(...params: fromParams[]): Promise<GeocoderResponse>;
+  class Geocoder {
+    constructor(apiKey: string, options?: Object): void;
+    isInit(): boolean;
+    from(...params: fromParams[]): Promise<GeocoderResponse>;
+  }
 }
 
-declare module 'react-native-geocoding' {
+declare module "react-native-geocoding" {
   export default Geocoder;
 }
