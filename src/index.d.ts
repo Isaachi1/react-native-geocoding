@@ -1,15 +1,15 @@
 declare module "react-native-geocoding" {
-  interface LatLng {
+  export interface LatLng {
     lat: number;
     lng: number;
   }
 
-  interface PlusCode {
+  export interface PlusCode {
     compound_code: string;
     global_code: string;
   }
 
-  interface GeocoderResponse {
+  export interface GeocoderResponse {
     plus_code: PlusCode;
     results: {
       address_components: {

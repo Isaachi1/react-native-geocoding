@@ -1,5 +1,5 @@
 const Errors = require("./Errors");
-const { toQueryParams } = require("./utils/functions");
+const { toQueryParams, formatQueryParams } = require("./utils/functions");
 
 /**
  * Module to use google's geocoding & reverse geocoding.
@@ -48,40 +48,12 @@ class Geocoder {
     // --- convert parameters ---
     let queryParams;
 
-    // (latitude, longitude)
-    if (!isNaN(params[0]) && !isNaN(params[1]))
-      queryParams = { latlng: `${params[0]},${params[1]}` };
-
-    // [latitude, longitude]
-    if (params[0] instanceof Array)
-      queryParams = { latlng: `${params[0][0]},${params[0][1]}` };
-
-    // {latitude, longitude}  or {lat, lng}
-    if (params[0] instanceof Object)
-      queryParams = {
-        latlng: `${params[0].lat || params[0].latitude},${
-          params[0].lng || params[0].longitude
-        }`,
-      };
-
-    // address, {bounds: {northeast: {lat, lng}, southwest: {lan, lng}}}
-    if (typeof params[0] === "string" && params[1] instanceof Object)
-      queryParams = { address: params[0], bounds: params[1] };
-
-    // address
-    if (typeof params[0] === "string") queryParams = { address: params[0] };
-
-    // --- start geocoding ---
-
-    // check query params
-    if (!queryParams)
-      // no query params, means parameters where invalid
-      throw {
-        code: Errors.INVALID_PARAMETERS,
-        message: "Invalid parameters : \n" + JSON.stringify(params, null, 2),
-      };
-
-    queryParams = { key: this.apiKey, ...this.options, ...queryParams };
+    queryParams = {
+      key: this.apiKey,
+      ...this.options,
+      ...queryParams,
+      ...formatQueryParams(queryParams, params),
+    };
     // build url
     const url = `https://maps.google.com/maps/api/geocode/json?${toQueryParams(
       queryParams
